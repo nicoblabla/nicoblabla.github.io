@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lander</title>
+	<style type="text/css">
+		#bgcontainer, #container, #uicontainer {
+			position: absolute;
+			left: 0; 
+			right: 0; 
+			margin-left: auto; 
+			margin-right: auto;
+			width: 800px;
+		}
+		#info {
+			margin-left: 900px;
+		}
+		body, html {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			background-color: #323639;
+		}
+	</style>
+	<meta name="viewport" content="width=device-width, minimal-ui">
+	<meta name="viewport" content = "width = device-width, initial-scale = 1.0, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+
+	<meta name="apple-mobile-web-app-title" content="Lander App" />
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" href="icon.png">
+
+	<link rel="apple-touch-icon" sizes="76x76" href="icon.png">
+
+	<link rel="apple-touch-icon" sizes="120x120" href="icon.png">
+
+	<link rel="apple-touch-icon" sizes="152x152" href="icon.png">
+	<link rel="icon" href="icon.png">
+</head>
+<body>
+	<div id="bgcontainer">
+		<canvas width="800" height="600" id="bgCanvas" style="background:  0% 0% / contain rgb(15, 15, 19);"></canvas>
+	</div>
+	<div id="container"></div>
+	<div id="uicontainer">
+		<canvas width="800" height="600" id="uiCanvas" style="background:  0% 0% / contain transparent;"></canvas>
+	</div>
+	<div id="info"></div>
+
+</body>
+<script type="text/javascript" src="js/matter.min.js"></script>
+<script type="text/javascript" src="js/poly-decomp.min.js"></script>
+<script type="text/javascript" src="js/fireworks.js"></script>
+<script type="text/javascript" src="js/background.js"></script>
+<script type="text/javascript" src="js/rocket.js"></script>
+<script type="text/javascript" src="js/world.js"></script>
+<script type="text/javascript" src="js/levels.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+
+</html>

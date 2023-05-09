@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFF Viz</title>
+    <!--<link rel="stylesheet" href="libs/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-nightfall.min.css"
+        rel="stylesheet" media="(prefers-color-scheme: dark)">-->
+    <link href="libs/bootstrap-dark.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="libs/fullpage.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+</head>
+
+<body>
+    <div class="menu pe-3">
+        <div class="form-check form-switch">
+            <input class="form-check-input" style="font-size:25px;" type="checkbox" role="switch"
+                id="flexSwitchDarkMode" onclick="toggleDarkMode();">
+            <label class="form-check-label" for="flexSwitchDarkMode">
+                <i class="bi" style="font-size:25px;" id="iconDarkMode"></i>
+            </label>
+        </div>
+    </div>
+    <div id="fullpage">
+        <div class="section position-relative">
+            <div class="section-home"></div>
+            <div class="text-center mb-5">
+                <img id="logo" height="200px" class="mb-4" />
+                <h5>By Nicola Cosi, Guillaume Digier and Nicolas Laoun</h5>
+            </div>
+            <div class="d-flex justify-content-around align-items-center">
+                <img src="img/train.svg" class="invert-on-darkmode" alt="icon train" style="width: 100px">
+
+                <img src="img/station.svg" class="invert-on-darkmode" alt="icon station" style="width: 100px">
+
+                <img src="img/rail.svg" class="invert-on-darkmode" alt="icon rail" style="width: 100px">
+            </div>
+            <div class="d-flex justify-content-around align-items-center mb-5">
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="150">11260</div> trains/day
+                </div>
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="5">804</div> stations
+                </div>
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="15">3265</div>km of railways
+                </div>
+            </div>
+            <div class="d-flex justify-content-around align-items-center">
+                <img src="img/passenger.svg" class="invert-on-darkmode" alt="icon train" style="width: 100px">
+
+                <img src="img/marchandise.svg" class="invert-on-darkmode" alt="icon station" style="width: 100px">
+
+                <img src="img/employee.svg" class="invert-on-darkmode" alt="icon rail" style="width: 100px">
+            </div>
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="500">880000</div> passengers/day
+                </div>
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="200">185000</div>t cargo/day
+                </div>
+                <div class="text-center" style="width: 200px; font-size: 30px;">
+                    <div data-number-animation="true" data-number-animation-speed="150">33943</div> employees
+                </div>
+            </div>
+            <!--<div class="text-center">
+                    <div class="shadow-12 invert-on-darkmode" style="width: 400px; position: relative">
+                        <img src="lines2.png" style="width: 100%">
+                    </div>
+                    <div data-number-animation="true" data-number-animation-speed="10">3265</div> km of rails
+                </div>-->
+
+            <div style="position: absolute; bottom: 40px; width: 100%">
+                <div class="text-center">
+                    <a class="ca3-scroll-down-link ca3-scroll-down-arrow"><i class="bi bi-chevron-double-down"
+                            style="font-size: 40px; color: #b0aeae"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="section">
+            <div class="position-relative" style="height: 100vh">
+                <div id="map" class="map scrollable-content"></div>
+                <div class="right-side">
+                    <h2>CFF Delays</h2>
+                    <p align="justify">This interactive map displays CFF train delays by line or by station.
+                    </p>
+                    <p align="justify">You can zoom in or drag the map to explore it further.
+                        When you hover over a line, you will see additional information about it.
+                    </p>
+                    <p align="justify">Use the
+                        controls below to switch
+                        between different types of delays and time periods.</p>
+                    <p align="justify">Data from 10.19.2022 to 20.03.2023</p>
+                    <span class="badge text-bg-dark" style="background-color: #1A85FF;">Punctual</span>
+                    <span class="badge text-bg-dark" style="background-color: #FE6100;">Delayed</span>
+                    <div class="d-flex justify-content-center mt-5">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="delayType" id="delayTypeLine" checked
+                                onclick="delays.changeType(this)" value="line">
+                            <label class="btn btn-outline-primary" for="delayTypeLine">Delay by line</label>
+
+                            <input type="radio" class="btn-check" name="delayType" id="delayTypeStations"
+                                value="station" onclick="delays.changeType(this)">
+                            <label class="btn btn-outline-primary" for="delayTypeStations">Delay by station</label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-5">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="delayData" id="delayDataAll" autocomplete="off"
+                                checked value="all" onclick="delays.changeFrame(this)">
+                            <label class="btn btn-outline-primary" for="delayDataAll">All the data</label>
+
+                            <input type="radio" class="btn-check" name="delayData" id="delayDataDay" autocomplete="off"
+                                value="day" onclick="delays.changeFrame(this)">
+                            <label class="btn btn-outline-primary" for="delayDataDay">By day of the week</label>
+
+                            <input type="radio" class="btn-check" name="delayData" id="delayDataHour" autocomplete="off"
+                                value="hour" onclick="delays.changeFrame(this)">
+                            <label class="btn btn-outline-primary" for="delayDataHour">By hour</label>
+                        </div>
+                    </div>
+                    <div class="mt-5" id="subOptionDay" style="display: none">
+                        <input type="range" class="form-range" min="0" max="6" step="1" id="subOptionDayRange"
+                            oninput="delays.changeSubOption(this.value)">
+                        <div class="ticks">
+                            <div class="tick" onclick="delays.changeSubOption(0)"><span>Monday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(1)"><span>Tuesday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(2)"><span>Wednesday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(3)"><span>Thursday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(4)"><span>Friday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(5)"><span>Saturday</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(6)"><span>Sunday</span></div>
+                        </div>
+                    </div>
+                    <div class="mt-5" id="subOptionHour" style="display: none">
+                        <input type="range" class="form-range" min="0" max="23" step="1" id="subOptionHourRange"
+                            oninput="delays.changeSubOption(this.value)">
+                        <div class="ticks">
+                            <div class="tick" onclick="delays.changeSubOption(0)"><span>0</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(1)"><span>1</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(2)"><span>2</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(3)"><span>3</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(4)"><span>4</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(5)"><span>5</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(6)"><span>6</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(7)"><span>7</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(8)"><span>8</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(9)"><span>9</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(10)"><span>10</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(11)"><span>11</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(12)"><span>12</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(13)"><span>13</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(14)"><span>14</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(15)"><span>15</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(16)"><span>16</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(17)"><span>17</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(18)"><span>18</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(19)"><span>19</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(20)"><span>20</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(21)"><span>21</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(22)"><span>22</span></div>
+                            <div class="tick" onclick="delays.changeSubOption(23)"><span>23</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="position-relative" style="height: 100vh">
+                <div class="left-side">
+                    <div class="h2" style="font-size: 1.9rem;">Trains vizualisation</div>
+                    <p align="justify">
+                        This interactive map shows the real-time locations of trains based on the time you select.
+                    </p>
+                    <p align="justify">
+                        You can adjust the frequency
+                        of updates on the map and filter the displayed trains by type or agency using the controls
+                        below.
+                    </p>
+                    <div class="h3">Speed simulation</div>
+                    <div class="d-flex justify-content-center mt-2">
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="simulationSpeed" id="simulationSpeed1"
+                                autocomplete="off" onchange="trains.changeSimulationSpeed(1)">
+                            <label class="btn btn-outline-primary" for="simulationSpeed1">x1</label>
+
+                            <input type="radio" class="btn-check" name="simulationSpeed" id="simulationSpeed60"
+                                autocomplete="off" onchange="trains.changeSimulationSpeed(60)" checked>
+                            <label class="btn btn-outline-primary" for="simulationSpeed60">x60</label>
+
+                            <input type="radio" class="btn-check" name="simulationSpeed" id="simulationSpeed600"
+                                autocomplete="off" onchange="trains.changeSimulationSpeed(600)">
+                            <label class="btn btn-outline-primary" for="simulationSpeed600">x600</label>
+
+                            <input type="radio" class="btn-check" name="simulationSpeed" id="simulationSpeed1800"
+                                autocomplete="off" onchange="trains.changeSimulationSpeed(1800)">
+                            <label class="btn btn-outline-primary" for="simulationSpeed1800">x1800</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-primary" onclick="trains.addTime(-3600)">- 1
+                                hour</button>
+                            <button type="button" class="btn btn-outline-primary" onclick="trains.addTime(3600)">+ 1
+                                hour</button>
+                        </div>
+                    </div>
+                    <div style="height: 216px; margin-top: -100px;">
+                        <div style="scale: 0.3">
+                            <div class="cff-clock">
+                                <div class="cff-tick-container">
+                                    <div class="cff-tick">
+                                        <div class="cff-tick">
+                                            <div class="cff-tick">
+                                                <div class="cff-tick">
+                                                    <div class="cff-tick">
+                                                        <div class="cff-tick"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="cffMinute" class="cff-hand"></div>
+                                <div id="cffHour" class="cff-hand"></div>
+                                <div id="cffSecond" class="cff-hand"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center"><span id="clock">Loading</span>
+                        <span style="width: 0px; display: inline-block">
+                            <button type="button" class="btn btn-link" onclick="trains.resetTime()"
+                                title="Reset time to now">
+                                <i class="bi bi-arrow-counterclockwise"> </i>
+                            </button>
+                        </span>
+                    </p>
+
+                    <div class="h3">Filters</div>
+
+                    <button type="button" class="collapsible btn btn-outline-primary fw-bold">Train types</button>
+                    <div class="coll-content-hidden py-3 pe-2">
+                        <div class="container scrollable-content">
+                            <div class="row row-cols-4" id="col-container"></div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="collapsible btn btn-outline-primary mt-2 fw-bold">Agencies</button>
+                    <div class="coll-content-hidden py-3 px-2 scrollable-content" id="cbox-container"></div>
+
+                </div>
+                <div id="map2" class="map scrollable-content"></div>
+            </div>
+        </div>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script src="libs/lz-string.min.js"></script>
+        <script src="js/delays.js"></script>
+        <script src="js/trains.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=beta&callback=initMap" async></script>
+        <script src="libs/fullpage.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/js/darkmode.min.js"></script>
+        <script src="js/script.js"></script>
+        <script>
+            function initMap() {
+                delays.initMap();
+                trains.initMap();
+            }
+            let interval = setInterval(() => {
+                if (document.querySelector('.dismissButton')) {
+                    document.querySelector('.dismissButton')?.click();
+                    //clearInterval(interval);
+                }
+            }, 50);
+
+            setTimeout(() => {
+                inverseColors(false);
+            }, 10);
+
+            function toggleDarkMode() {
+                darkmode.toggleDarkMode();
+                inverseColors();
+            }
+
+            function inverseColors(withMaps = true) {
+                let filter = "invert(0)";
+                let theme = "634d8c221b2996df";
+                let logo = "img/cff_viz_black.png";
+                let iconAdd = "bi-sun";
+                let iconRemove = "bi-moon-stars";
+                let checked = false;
+
+                if (darkmode.inDarkMode) {
+                    filter = "invert(1)";
+                    theme = "ba8d9b8c2bd0cb9d";
+                    logo = "img/cff_viz_white.png";
+                    iconAdd = "bi-moon-stars";
+                    iconRemove = "bi-sun";
+                    checked = true;
+                }
+
+                document.getElementById("logo").src = logo;
+                document.getElementById("flexSwitchDarkMode").checked = checked;
+
+                document.getElementById("iconDarkMode").classList.add(iconAdd);
+                document.getElementById("iconDarkMode").classList.remove(iconRemove);
+
+                let nodes = document.querySelectorAll('.invert-on-darkmode');
+                for (let node of nodes) {
+                    node.style.filter = filter;
+                }
+
+                document.getElementsByClassName('section-home')[0].style.opacity = darkmode.inDarkMode ? "0.5" : "0";
+
+                if (withMaps) {
+                    delays.setMapTheme(theme);
+                    trains.setMapTheme(theme);
+                }
+            }
+        </script>
+</body>
+
+</html>
