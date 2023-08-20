@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pics2Emoji</title>
+    <style>
+        #preprocessingProgress,
+        #computeProgress {
+            display: block;
+            width: 100%;
+        }
+
+        #output,
+        #preprocessingTestEmoji {
+            white-space: pre;
+            /*font-family: monospace;*/
+            font-family: "Emoji";
+            font-size: 10px;
+            display: inline-block;
+            margin: 0;
+            line-height: 125%;
+        }
+
+        #output {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        #container {
+            width: 100vw;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        #progressBarContainer {
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            position: fixed;
+            top: 0;
+        }
+
+        #progressBar {
+            height: 5px;
+            background-color: #4CAF50;
+            width: 100%;
+            transition: width 0.1s;
+        }
+
+        #display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .dg {
+            position: fixed;
+            top: 5px;
+            left: calc(100vw - 280px);
+        }
+
+        #inputImage {
+            visibility: hidden;
+            display: none;
+        }
+
+        @media screen and (max-width: 500px) {
+            .dg {
+                width: 100% !important;
+                position: absolute;
+                top: 5px;
+                left: 0;
+                right: 0;
+            }
+
+            .close-button {
+                display: none;
+            }
+
+            h1 {
+                margin-top: 200px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <div style="margin: auto; width: 80%;">
+            <h1>Pics2Emoji</h1>
+            <p>Par Nicolas Laoun</p>
+        </div>
+
+        <div id="display">
+            <canvas id="input" style="max-height: 200px; max-width: 100%;"></canvas>
+            <pre id="output"></pre>
+        </div>
+        <div id="preprocessing">
+            Computing emojis colors...
+            <canvas id="preprocessingCanvas"></canvas>
+            <pre id="preprocessingTestEmoji" style="font-size: 100px;"></pre>
+        </div>
+    </div>
+    <input id="inputImage" type="file" onchange="previewFile()">
+
+    <script src="js/dat.gui.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
